@@ -1,13 +1,13 @@
+from django.contrib.auth.models import User
 from rest_framework import generics, permissions
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from django.contrib.auth.models import User
 from .models import Transferencia, Cliente, Beneficiario
+from .permissions import IsTokenAuthenticated
 from .serializers import TransferenciaSerializer, UserSerializer, ClienteSerializer, BeneficiarioSerializer
 from .services import TransferenciaService, ClienteService, BeneficiarioService
-from .permissions import IsTokenAuthenticated
 
 
 class ClienteListCreate(generics.ListCreateAPIView):

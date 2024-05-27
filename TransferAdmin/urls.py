@@ -1,26 +1,25 @@
 from django.contrib import admin
 from django.urls import path
-from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from drf_yasg.views import get_schema_view
 from rest_framework import permissions
 
-from transferencias_app.views import (TransferenciaListCreate,ClienteListCreate, ClienteRetrieveUpdateDestroy,
+from transferencias_app.views import (TransferenciaListCreate, ClienteListCreate, ClienteRetrieveUpdateDestroy,
                                       BeneficiarioListCreate, BeneficiarioRetrieveUpdateDestroy,
                                       TransferenciaRetrieveUpdateDestroy, UserCreate, TokenObtainPair)
 
 schema_view = get_schema_view(
-   openapi.Info(
-      title="Transferencias API",
-      default_version='v1',
-      description="API para la gestión de transferencias.",
-      terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@example.com"),
-      license=openapi.License(name="BSD License"),
-   ),
-   public=True,
-   permission_classes=(permissions.AllowAny,),
+    openapi.Info(
+        title="Transferencias API",
+        default_version='v1',
+        description="API para la gestión de transferencias.",
+        terms_of_service="https://www.google.com/policies/terms/",
+        contact=openapi.Contact(email="contact@example.com"),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
 )
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),
