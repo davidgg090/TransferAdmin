@@ -1,4 +1,73 @@
-from .models import Transferencia
+from .models import Transferencia, Cliente, Beneficiario
+
+
+class ClienteService:
+    """
+    A service class for managing Cliente objects.
+
+    Explanation:
+    Provides static methods for creating, updating, and deleting Cliente instances.
+
+    Args:
+    - nombre_completo (str): The full name of the client.
+    - direccion (str): The address of the client.
+    - telefono (str): The phone number of the client.
+
+    Returns:
+    - Cliente: The created, updated, or deleted Cliente instance.
+    """
+
+    @staticmethod
+    def create_cliente(nombre_completo, direccion, telefono):
+        return Cliente.objects.create(nombre_completo=nombre_completo, direccion=direccion, telefono=telefono)
+
+    @staticmethod
+    def update_cliente(cliente, nombre_completo, direccion, telefono):
+        cliente.nombre_completo = nombre_completo
+        cliente.direccion = direccion
+        cliente.telefono = telefono
+        cliente.save()
+        return cliente
+
+    @staticmethod
+    def delete_cliente(cliente):
+        cliente.delete()
+
+
+class BeneficiarioService:
+    """
+    A service class for managing Beneficiario objects.
+
+    Explanation:
+    Provides static methods for creating, updating, and deleting Beneficiario instances.
+
+    Args:
+    - nombre_completo (str): The full name of the beneficiary.
+    - parentesco (str): The relationship of the beneficiary.
+    - fecha_nacimiento (date): The date of birth of the beneficiary.
+    - sexo (str): The gender of the beneficiary.
+
+    Returns:
+    - Beneficiario: The created, updated, or deleted Beneficiario instance.
+    """
+
+    @staticmethod
+    def create_beneficiario(nombre_completo, parentesco, fecha_nacimiento, sexo):
+        return Beneficiario.objects.create(nombre_completo=nombre_completo, parentesco=parentesco,
+                                           fecha_nacimiento=fecha_nacimiento, sexo=sexo)
+
+    @staticmethod
+    def update_beneficiario(beneficiario, nombre_completo, parentesco, fecha_nacimiento, sexo):
+        beneficiario.nombre_completo = nombre_completo
+        beneficiario.parentesco = parentesco
+        beneficiario.fecha_nacimiento = fecha_nacimiento
+        beneficiario.sexo = sexo
+        beneficiario.save()
+        return beneficiario
+
+    @staticmethod
+    def delete_beneficiario(beneficiario):
+        beneficiario.delete()
 
 
 class TransferenciaService:

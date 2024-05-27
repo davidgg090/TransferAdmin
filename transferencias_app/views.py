@@ -1,11 +1,87 @@
 from rest_framework import generics, permissions
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 from django.contrib.auth.models import User
-from .models import Transferencia
-from .serializers import TransferenciaSerializer, UserSerializer
-from .services import TransferenciaService
+from .models import Transferencia, Cliente, Beneficiario
+from .serializers import TransferenciaSerializer, UserSerializer, ClienteSerializer, BeneficiarioSerializer
+from .services import TransferenciaService, ClienteService, BeneficiarioService
+from .permissions import IsTokenAuthenticated
+
+
+class ClienteListCreate(generics.ListCreateAPIView):
+    """
+    A view for listing and creating Cliente objects.
+
+    Explanation:
+    Uses a serializer to handle the data and a service to create a new Cliente instance.
+    """
+
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
+    permission_classes = [IsTokenAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def perform_create(self, serializer):
+        ClienteService.create_cliente(**serializer.validated_data)
+
+
+class ClienteRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    """
+    A view for retrieving, updating, and deleting a specific Cliente object.
+
+    Explanation:
+    Uses a serializer to handle the data and a service to update or delete the Cliente instance.
+    """
+
+    queryset = Cliente.objects.all()
+    serializer_class = ClienteSerializer
+    permission_classes = [IsTokenAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def perform_update(self, serializer):
+        ClienteService.update_cliente(cliente=self.get_object(), **serializer.validated_data)
+
+    def perform_destroy(self, instance):
+        ClienteService.delete_cliente(instance)
+
+
+class BeneficiarioListCreate(generics.ListCreateAPIView):
+    """
+    A view for listing and creating Beneficiario objects.
+
+    Explanation:
+    Uses a serializer to handle the data and a service to create a new Beneficiario instance.
+    """
+
+    queryset = Beneficiario.objects.all()
+    serializer_class = BeneficiarioSerializer
+    permission_classes = [IsTokenAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def perform_create(self, serializer):
+        BeneficiarioService.create_beneficiario(**serializer.validated_data)
+
+
+class BeneficiarioRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    """
+    A view for retrieving, updating, and deleting a specific Beneficiario object.
+
+    Explanation:
+    Uses a serializer to handle the data and a service to update or delete the Beneficiario instance.
+    """
+
+    queryset = Beneficiario.objects.all()
+    serializer_class = BeneficiarioSerializer
+    permission_classes = [IsTokenAuthenticated]
+    authentication_classes = [JWTAuthentication]
+
+    def perform_update(self, serializer):
+        BeneficiarioService.update_beneficiario(beneficiario=self.get_object(), **serializer.validated_data)
+
+    def perform_destroy(self, instance):
+        BeneficiarioService.delete_beneficiario(instance)
 
 
 class TransferenciaListCreate(generics.ListCreateAPIView):
@@ -18,7 +94,8 @@ class TransferenciaListCreate(generics.ListCreateAPIView):
 
     queryset = Transferencia.objects.all()
     serializer_class = TransferenciaSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsTokenAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def perform_create(self, serializer):
         service = TransferenciaService()
@@ -35,7 +112,8 @@ class TransferenciaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     queryset = Transferencia.objects.all()
     serializer_class = TransferenciaSerializer
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [IsTokenAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def perform_update(self, serializer):
         service = TransferenciaService()

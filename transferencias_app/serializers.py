@@ -29,6 +29,32 @@ class BeneficiarioSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ClienteSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Cliente model.
+
+    Explanation:
+    Defines how the Cliente model should be serialized, including all fields.
+    """
+
+    class Meta:
+        model = Cliente
+        fields = '__all__'
+
+
+class BeneficiarioSerializer(serializers.ModelSerializer):
+    """
+    Serializer for the Beneficiario model.
+
+    Explanation:
+    Defines how the Beneficiario model should be serialized, including all fields.
+    """
+
+    class Meta:
+        model = Beneficiario
+        fields = '__all__'
+
+
 class TransferenciaSerializer(serializers.ModelSerializer):
     """
     Serializer for the Transferencia model.
