@@ -4,7 +4,7 @@
 
 1. Clona el repositorio de GitHub:
     ```
-    git clone https://github.com/davidgg090/sample-django-app.git
+    git clone https://github.com/davidgg090/TransferAdmin.git
     ```
 2. Accede al directorio del proyecto:
     ```
