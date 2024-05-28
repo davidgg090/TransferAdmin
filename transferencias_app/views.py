@@ -44,7 +44,7 @@ class ClienteRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     authentication_classes = [JWTAuthentication]
 
     def get_object(self):
-        obj = get_object_or_404(Beneficiario, id=self.kwargs['pk'])
+        obj = get_object_or_404(Cliente, id=self.kwargs['pk'])
         return obj
 
     def perform_update(self, serializer):
