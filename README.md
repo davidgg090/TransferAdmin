@@ -42,7 +42,6 @@ aplicación. Debes crear este archivo en el directorio raíz del proyecto y agre
 ```dotenv
 SECRET_KEY=
 DEBUG=
-ALLOWED_HOSTS=localhost,127.0.0.1,testserver
 ```
    
 ## Creación de la Base de Datos
