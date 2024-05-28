@@ -1,5 +1,4 @@
-https://github.com/davidgg090/TransferAdmin/actions/workflows/python-app/badge.svg
-
+![example workflow](https://github.com/davidgg090/TransferAdmin/actions/workflows/python-app.yml/badge.svg)
 
 # Ejecución del Proyecto
 
