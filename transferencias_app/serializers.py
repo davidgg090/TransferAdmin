@@ -67,6 +67,13 @@ class TransferenciaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transferencia
         fields = '__all__'
+        extra_kwargs = {
+            'cliente': {'required': False},
+            'beneficiario': {'required': False},
+            'monto': {'required': False},
+            'fecha_transferencia': {'required': False},
+            'estado': {'required': False},
+        }
 
 
 class UserSerializer(serializers.ModelSerializer):

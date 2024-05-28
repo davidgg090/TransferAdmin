@@ -1,8 +1,11 @@
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
+
 from rest_framework import generics, permissions
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.response import Response
 
 from .models import Transferencia, Cliente, Beneficiario
 from .permissions import IsTokenAuthenticated
@@ -40,11 +43,20 @@ class ClienteRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsTokenAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    def get_object(self):
+        obj = get_object_or_404(Beneficiario, id=self.kwargs['pk'])
+        return obj
+
     def perform_update(self, serializer):
-        ClienteService.update_cliente(cliente=self.get_object(), **serializer.validated_data)
+        cliente = self.get_object()
+        service = ClienteService()
+        updated_cliente = service.update_cliente(cliente=cliente, **serializer.validated_data)
+        return Response(self.get_serializer(updated_cliente).data)
 
     def perform_destroy(self, instance):
-        ClienteService.delete_cliente(instance)
+        cliente = self.get_object()
+        service = ClienteService()
+        service.delete_cliente(cliente)
 
 
 class BeneficiarioListCreate(generics.ListCreateAPIView):
@@ -77,11 +89,20 @@ class BeneficiarioRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsTokenAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    def get_object(self):
+        obj = get_object_or_404(Beneficiario, id=self.kwargs['pk'])
+        return obj
+
     def perform_update(self, serializer):
-        BeneficiarioService.update_beneficiario(beneficiario=self.get_object(), **serializer.validated_data)
+        beneficiario = self.get_object()
+        service = BeneficiarioService()
+        updated_beneficiario = service.update_beneficiario(beneficiario=beneficiario, **serializer.validated_data)
+        return Response(self.get_serializer(updated_beneficiario).data)
 
     def perform_destroy(self, instance):
-        BeneficiarioService.delete_beneficiario(instance)
+        beneficiario = self.get_object()
+        service = BeneficiarioService()
+        service.delete_beneficiario(beneficiario)
 
 
 class TransferenciaListCreate(generics.ListCreateAPIView):
@@ -115,13 +136,20 @@ class TransferenciaRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [IsTokenAuthenticated]
     authentication_classes = [JWTAuthentication]
 
+    def get_object(self):
+        obj = get_object_or_404(Transferencia, id=self.kwargs['pk'])
+        return obj
+
     def perform_update(self, serializer):
+        transferencia = self.get_object()
         service = TransferenciaService()
-        service.update_transferencia(transferencia=self.get_object(), **serializer.validated_data)
+        updated_transferencia = service.update_transferencia(transferencia=transferencia, **serializer.validated_data)
+        return Response(self.get_serializer(updated_transferencia).data)
 
     def perform_destroy(self, instance):
+        transferencia = self.get_object()
         service = TransferenciaService()
-        service.delete_transferencia(instance)
+        service.delete_transferencia(transferencia)
 
 
 class UserCreate(generics.CreateAPIView):
