@@ -1,13 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-
 from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
-
 
 from transferencias_app.views import (TransferenciaListCreate, ClienteListCreate, ClienteRetrieveUpdateDestroy,
                                       BeneficiarioListCreate, BeneficiarioRetrieveUpdateDestroy,
                                       TransferenciaRetrieveUpdateDestroy, UserCreate, TokenObtainPair)
-
 
 urlpatterns = [
     path('admin/', admin.site.urls),

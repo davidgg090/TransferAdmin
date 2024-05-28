@@ -1,6 +1,7 @@
-from .models import Transferencia, Cliente, Beneficiario
 from django.core.exceptions import ObjectDoesNotExist, ValidationError
 from django.db import IntegrityError, transaction
+
+from .models import Transferencia, Cliente, Beneficiario
 
 
 class ClienteService:
@@ -23,7 +24,8 @@ class ClienteService:
     def create_cliente(nombre_completo, direccion, telefono):
         try:
             with transaction.atomic():
-                cliente = Cliente.objects.create(nombre_completo=nombre_completo, direccion=direccion, telefono=telefono)
+                cliente = Cliente.objects.create(nombre_completo=nombre_completo, direccion=direccion,
+                                                 telefono=telefono)
             return cliente
         except IntegrityError as e:
             raise ValidationError(f"Error creating beneficiario: {e}") from e
@@ -43,7 +45,6 @@ class ClienteService:
             raise ValidationError(f"Beneficiario does not exist: {e}") from e
         except Exception as e:
             raise ValidationError(f"Unexpected error: {e}") from e
-
 
     @staticmethod
     def delete_cliente(cliente):
@@ -72,10 +73,11 @@ class BeneficiarioService:
         try:
             with transaction.atomic():
                 beneficiario = Beneficiario.objects.create(nombre_completo=nombre_completo, parentesco=parentesco,
-                                           fecha_nacimiento=fecha_nacimiento, sexo=sexo)
+                                                           fecha_nacimiento=fecha_nacimiento, sexo=sexo)
             return beneficiario
         except IntegrityError as e:
             raise ValidationError(f"Error creating beneficiario: {e}") from e
+
     @staticmethod
     def update_beneficiario(beneficiario, **kwargs):
         try:

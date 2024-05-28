@@ -1,7 +1,8 @@
-from django.test import TestCase
 from django.core.exceptions import ObjectDoesNotExist
-from ..services import BeneficiarioService
+from django.test import TestCase
+
 from ..models import Beneficiario
+from ..services import BeneficiarioService
 
 
 class TestBeneficiarioService(TestCase):

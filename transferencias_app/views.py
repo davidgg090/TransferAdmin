@@ -1,11 +1,10 @@
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
-
 from rest_framework import generics, permissions
+from rest_framework.response import Response
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
-from rest_framework.response import Response
 
 from .models import Transferencia, Cliente, Beneficiario
 from .permissions import IsTokenAuthenticated
