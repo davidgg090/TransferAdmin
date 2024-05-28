@@ -117,17 +117,7 @@ class TransferenciaService:
     def __init__(self, transferencia_model=Transferencia):
         self.transferencia_model = transferencia_model
 
-    def create_transferencia(self, cliente_id, beneficiario_id, monto, fecha_transferencia, estado):
-        try:
-            cliente = Cliente.objects.get(id=cliente_id)
-            beneficiario = Beneficiario.objects.get(id=beneficiario_id)
-        except Cliente.DoesNotExist as e:
-            raise ValidationError(f"Cliente with id {cliente_id} does not exist.") from e
-        except Beneficiario.DoesNotExist as e:
-            raise ValidationError(
-                f"Beneficiario with id {beneficiario_id} does not exist."
-            ) from e
-
+    def create_transferencia(self, cliente, beneficiario, monto, fecha_transferencia, estado):
         try:
             with transaction.atomic():
                 transferencia = self.transferencia_model.objects.create(
@@ -143,20 +133,6 @@ class TransferenciaService:
 
     def update_transferencia(self, transferencia, **kwargs):
         try:
-            if 'cliente_id' in kwargs:
-                kwargs['cliente'] = Cliente.objects.get(id=kwargs.pop('cliente_id'))
-            if 'beneficiario_id' in kwargs:
-                kwargs['beneficiario'] = Beneficiario.objects.get(id=kwargs.pop('beneficiario_id'))
-        except Cliente.DoesNotExist as e:
-            raise ValidationError(
-                f"Cliente with id {kwargs.get('cliente_id')} does not exist."
-            ) from e
-        except Beneficiario.DoesNotExist as e:
-            raise ValidationError(
-                f"Beneficiario with id {kwargs.get('beneficiario_id')} does not exist."
-            ) from e
-
-        try:
             with transaction.atomic():
                 for field, value in kwargs.items():
                     if hasattr(transferencia, field):
@@ -165,8 +141,6 @@ class TransferenciaService:
             return transferencia
         except IntegrityError as e:
             raise ValidationError(f"Error updating transferencia: {e}") from e
-        except ObjectDoesNotExist as e:
-            raise ValidationError(f"Transferencia does not exist: {e}") from e
         except Exception as e:
             raise ValidationError(f"Unexpected error: {e}") from e
 
@@ -178,7 +152,5 @@ class TransferenciaService:
             return transferencia
         except IntegrityError as e:
             raise ValidationError(f"Error deleting transferencia: {e}") from e
-        except ObjectDoesNotExist as e:
-            raise ValidationError(f"Transferencia does not exist: {e}") from e
         except Exception as e:
             raise ValidationError(f"Unexpected error: {e}") from e
