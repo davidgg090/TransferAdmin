@@ -1,3 +1,6 @@
+https://github.com/davidgg090/TransferAdmin/actions/workflows/python-app/badge.svg
+
+
 # Ejecución del Proyecto
 
 ## Configuración del Entorno Virtual:
